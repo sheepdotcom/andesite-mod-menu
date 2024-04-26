@@ -28,6 +28,7 @@ bool AndesiteMenu::init() {
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
 	if (!this->initWithColor({0,0,0,105})) return false;
 
+	//Background
 	this->m_mainLayer = CCLayer::create();
 	this->addChild(m_mainLayer);
 	auto bg = CCScale9Sprite::create("GJ_square02.png", {0.f,0.f,80.f,80.f});
@@ -35,26 +36,44 @@ bool AndesiteMenu::init() {
 	bg->setPosition(winSize.width/2,winSize.height/2);
 	m_mainLayer->addChild(bg);
 
+	//Close Button
 	this->m_buttonMenu = CCMenu::create();
 	m_mainLayer->addChild(m_buttonMenu);
 	auto closeBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"), this, menu_selector(AndesiteMenu::onClose));
 	closeBtn->setPosition(ccp((-450.f+26.f)/2,(300.f-26.75f)/2));
 	m_buttonMenu->addChild(closeBtn);
 
+	//Title Text
+	auto title = CCLabelBMFont::create("Andesite", "bigFont.fnt");
+	title->setPosition(ccp(450.f/2,300.f-25.f));
+	title->setID("menu-title");
+	auto separator = CCSprite::createWithSpriteFrameName("floorLine_001.png");
+	separator->setScaleX(0.5f);
+	separator->setScaleY(1.f);
+	separator->setPosition(ccp(450.f/2,300.f-45.f));
+	separator->setOpacity(51);
+	separator->setID("menu-seperator");
+	bg->addChild(title);
+	bg->addChild(separator);
+
+	//Scroll Layer Background
 	auto scrollBG = CCScale9Sprite::create("square02_001.png", {0.f,0.f,80.f,80.f});
 	scrollBG->setContentSize({300.f,230.f});
 	scrollBG->setPosition(ccp(290.f,125.f));
 	scrollBG->setOpacity(100.f);
 	bg->addChild(scrollBG);
 
+	//Scroll Layer
 	auto scrollLayer = ScrollLayer::create({320.f,230.f});
 	auto content = CCMenu::create();
 	content->registerWithTouchDispatcher();
+	content->setPosition(scrollLayer->getPosition());
+	content->setContentSize(scrollLayer->getContentSize());
 	scrollLayer->m_contentLayer->addChild(content);
 	scrollLayer->setTouchEnabled(true);
 	scrollBG->addChild(scrollLayer);
 
-	AndesiteMenu::addHackToMenu(scrollLayer->m_contentLayer);
+	AndesiteMenu::addHackToMenu(content);
 
 	scrollLayer->moveToTop();
 	scrollLayer->enableScrollWheel();
