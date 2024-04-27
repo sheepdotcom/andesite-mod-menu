@@ -5,13 +5,13 @@
 using namespace geode::prelude;
 
 class AndesiteMenu : public FLAlertLayer {
-protected:
+public:
 	ScrollLayer* m_scrollLayer;
 	CCMenu* m_content;
-public:
 	void useless(CCObject* p0);
+	void onOptions(CCObject* p0);
 	void addHackToMenu(CCPoint pos);
-	bool init();
+	bool init(float mWidth, float mHeight);
 	void onClose(CCObject* p0);
 	static AndesiteMenu* create();
 };

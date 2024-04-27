@@ -1,3 +1,9 @@
+# v0.0.1-alpha.4
+
+Actually made the hack menu slightly wider.
+Added a settings button to the hack menu.
+Internal code changes allowing for custom width and height of the hacks menu if needed.
+
 # v0.0.1-alpha.3
 
 Made the toggle buttons look more like MegaHack Mobile rather than being default, but still needs scaling and positioning adjustments.
