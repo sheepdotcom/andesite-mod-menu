@@ -4,9 +4,10 @@
 		"win": "2.204",
 		"android": "2.205"
 	},
-	"version": "v0.0.1-alpha.4",
-	"id": "sheepdotcom.andesite",
-	"name": "Andesite",
+	"version": "v0.0.1-alpha.5",
+	"id": "sheepdotcom.andesite-hacks",
+	"name": "Andesite Hacks",
 	"developer": "sheepdotcom",
-	"description": "Andesite Mod Menu idk"
+	"description": "Andesite Hacks, inspired by MegaHack Mobile",
+	"repository": "https://github.com/sheepdotcom/andesite-mod-menu"
 }

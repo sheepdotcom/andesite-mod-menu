@@ -55,7 +55,7 @@ bool AndesiteMenu::init(float mWidth, float mHeight) {
 	m_buttonMenu->addChild(closeBtn);
 
 	//Title Text
-	auto title = CCLabelBMFont::create("Andesite", "bigFont.fnt");
+	auto title = CCLabelBMFont::create("Andesite Hacks", "bigFont.fnt");
 	title->setPosition(ccp(mWidth/2,mHeight-25.f));
 	title->setID("menu-title");
 	auto separator = CCSprite::createWithSpriteFrameName("floorLine_001.png");
