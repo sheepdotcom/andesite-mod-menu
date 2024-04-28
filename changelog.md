@@ -1,3 +1,11 @@
+# v0.0.1-alpha.6
+
+- Added an entire system for storing and creating hacks (This took a lot of effort).
+- Made the labels on the buttons smaller.
+- Having multiple hacks now works properly.
+- Added info buttons that display details on what each hack does.
+- Hacks will now save what state they are in.
+
 # v0.0.1-alpha.5
 
 - Changed the mod ID from `andesite` to `andesite-hacks`.

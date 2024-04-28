@@ -2,34 +2,12 @@
 
 using namespace geode::prelude;
 
-void AndesiteMenu::useless(CCObject* p0) {
-	//Useless, just for testing
-}
-
 void AndesiteMenu::onOptions(CCObject* p0) {
 	auto options = OptionsLayer::create();
 	auto scene = CCDirector::sharedDirector()->getRunningScene();
 	scene->addChild(options);
 	options->setZOrder(512);
 	options->showLayer(false);
-}
-
-void AndesiteMenu::addHackToMenu(CCPoint pos) {
-	//todo: input hack into function (like prism menu)
-	//todo: move this code somewhere else and improve it
-	auto toggle = CCMenuItemToggler::create(
-		ButtonSprite::create("Useless", 112.f, true, "bigFont.fnt", "GJ_button_05.png", 30, 1.f),
-		ButtonSprite::create("Useless", 112.f, true, "bigFont.fnt", "GJ_button_01.png", 30, 1.f),
-		m_content,
-		menu_selector(AndesiteMenu::useless)
-	);
-	toggle->setUserData(this);
-	toggle->toggle(false);
-	toggle->setPosition(pos);
-	toggle->setZOrder(2);
-	toggle->setID("useless-toggle");
-
-	m_content->addChild(toggle);
 }
 
 bool AndesiteMenu::init(float mWidth, float mHeight) {
@@ -94,8 +72,15 @@ bool AndesiteMenu::init(float mWidth, float mHeight) {
 	m_scrollLayer->setTouchEnabled(true);
 	scrollBG->addChild(m_scrollLayer);
 
-	for (size_t i = 0; i < 1; i++) {
-		AndesiteMenu::addHackToMenu(ccp(70.f, m_content->getContentHeight() - 20 - (30 * i)));
+	//Ugh this code will be fixed later. It is super bad right now.
+	for (size_t i = 0; i < Client::instance->sections.size(); i++) {
+		auto section = Client::instance->sections[i];
+		if (!section->id.compare("universal-section")) {
+			for (size_t h = 0; h < section->hacks.size(); h++) {
+				auto hack = section->hacks[h];
+				hack->addHackToMenu(hack, m_content, ccp(70.f+160*(h%2), m_content->getContentHeight() - 20 - (40 * floor(h / 2))));
+			}
+		}
 	}
 
 	m_scrollLayer->moveToTop();

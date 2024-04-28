@@ -2,7 +2,7 @@
 
 This is the mod name now.
 
-Currently in alpha, meaning this is super duper unfinished.
+Currently in alpha, meaning this is unfinished.
 
 # Credits
 
