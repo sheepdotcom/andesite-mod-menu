@@ -78,7 +78,7 @@ bool AndesiteMenu::init(float mWidth, float mHeight) {
 		if (!section->id.compare("universal-section")) {
 			for (size_t h = 0; h < section->hacks.size(); h++) {
 				auto hack = section->hacks[h];
-				hack->addHackToMenu(hack, m_content, ccp(70.f+160*(h%2), m_content->getContentHeight() - 20 - (40 * floor(h / 2))));
+				hack->addHackToMenu(hack, m_content, ccp(65.f+160*(h%2), m_content->getContentHeight() - 25 - (40 * floor(h / 2))));
 			}
 		}
 	}

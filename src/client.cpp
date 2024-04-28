@@ -25,6 +25,7 @@ void Client::SetupUniversal() {
 
 	universal->hacks.push_back(new Hack("Testig", "testing", "I am testing the massive update!"));
 	universal->hacks.push_back(new Hack("Hello", "hello", "This is a hello test."));
+	universal->hacks.push_back(new Hack("Long Word Test", "longwordtest", "This is a test for long phrases or sentences because I need to test if <cg>everything</c> works fine"));
 
 	Client::instance->sections.push_back(universal);
 }

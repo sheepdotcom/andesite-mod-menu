@@ -23,8 +23,8 @@ void Hack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 	auto enabled = hack->enabled;
 
 	auto toggle = CCMenuItemToggler::create(
-		ButtonSprite::create(name.c_str(), 112.f, true, "bigFont.fnt", "GJ_button_05.png", 30, 0.8f),
-		ButtonSprite::create(name.c_str(), 112.f, true, "bigFont.fnt", "GJ_button_01.png", 30, 0.8f),
+		ButtonSprite::create(name.c_str(), 100.f, true, "bigFont.fnt", "GJ_button_05.png", 30, 0.8f),
+		ButtonSprite::create(name.c_str(), 100.f, true, "bigFont.fnt", "GJ_button_01.png", 30, 0.8f),
 		menu,
 		menu_selector(Hack::onToggle)
 	);
@@ -39,10 +39,10 @@ void Hack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 		menu,
 		menu_selector(Hack::onInfo)
 	);
-	info->m_baseScale = 1.f;
+	info->m_baseScale = 0.85f;
 	info->setScale(info->m_baseScale);
-	info->setPosition(pos + ccp(80.f, 0.f));
-	info->setContentSize(info->getContentSize() * 1.f);
+	info->setPosition(pos + ccp(75.f, 0.f));
+	info->setContentSize(info->getContentSize() * 1.5f);
 	static_cast<CCSprite*>(info->getChildren()->objectAtIndex(0))->setPosition(info->getContentSize() / 2);
 	info->setUserData(this);
 	info->setID(id + "-info");

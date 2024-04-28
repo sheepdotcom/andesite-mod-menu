@@ -1,3 +1,8 @@
+# v0.0.1-alpha.7
+
+- Made the positioning and scale of the hack buttons and info buttons more accurate to MegaHack Mobile.
+- Added a third test button.
+
 # v0.0.1-alpha.6
 
 - Added an entire system for storing and creating hacks (This took a lot of effort).
