@@ -1,3 +1,9 @@
+# v0.0.1-alpha.8
+
+- Added the ability for hacks to have options.
+- The hack options menu is very similar to MegaHack Mobile but still needs a lot of fixes and some missing features to be added.
+- Changed the hacks menu from `FLAlertLayer` to `CCLayerColor`, changed multiple variable names, and renamed many files.
+
 # v0.0.1-alpha.7
 
 - Made the positioning and scale of the hack buttons and info buttons more accurate to MegaHack Mobile.

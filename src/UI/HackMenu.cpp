@@ -1,8 +1,8 @@
-#include "menu.hpp"
+#include "HackMenu.hpp"
 
 using namespace geode::prelude;
 
-void AndesiteMenu::onOptions(CCObject* p0) {
+void HackMenu::onOptions(CCObject* p0) {
 	auto options = OptionsLayer::create();
 	auto scene = CCDirector::sharedDirector()->getRunningScene();
 	scene->addChild(options);
@@ -10,27 +10,27 @@ void AndesiteMenu::onOptions(CCObject* p0) {
 	options->showLayer(false);
 }
 
-bool AndesiteMenu::init(float mWidth, float mHeight) {
+bool HackMenu::init(float mWidth, float mHeight) {
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
 	if (!this->initWithColor({0,0,0,105})) return false;
 
 	//Background
-	this->m_mainLayer = CCLayer::create();
-	this->addChild(m_mainLayer);
+	auto mainLayer = CCLayer::create();
+	this->addChild(mainLayer);
 	auto bg = CCScale9Sprite::create("GJ_square02.png", {0.f,0.f,80.f,80.f});
-	bg->setContentSize({mWidth, mHeight});
+	bg->setContentSize(ccp(mWidth, mHeight));
 	bg->setPosition(winSize.width/2,winSize.height/2);
 	bg->setID("menu-bg");
-	m_mainLayer->addChild(bg);
+	mainLayer->addChild(bg);
 
 	//Close Button
-	this->m_buttonMenu = CCMenu::create();
-	m_buttonMenu->setID("button-menu");
-	m_mainLayer->addChild(m_buttonMenu);
-	auto closeBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"), this, menu_selector(AndesiteMenu::onClose));
+	auto buttonMenu = CCMenu::create();
+	buttonMenu->setID("button-menu");
+	mainLayer->addChild(buttonMenu);
+	auto closeBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"), this, menu_selector(HackMenu::onClose));
 	closeBtn->setPosition(ccp((-mWidth+26.f)/2,(mHeight-26.75f)/2));
 	closeBtn->setID("close-button");
-	m_buttonMenu->addChild(closeBtn);
+	buttonMenu->addChild(closeBtn);
 
 	//Title Text
 	auto title = CCLabelBMFont::create("Andesite Hacks", "bigFont.fnt");
@@ -46,31 +46,31 @@ bool AndesiteMenu::init(float mWidth, float mHeight) {
 	bg->addChild(separator);
 
 	//Settings Button
-	auto settingsBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"), this, menu_selector(AndesiteMenu::onOptions));
+	auto settingsBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"), this, menu_selector(HackMenu::onOptions));
 	settingsBtn->setPosition(ccp((mWidth/2)-30.f,(mHeight/2)-30.f));
 	settingsBtn->m_baseScale = 0.8f;
 	settingsBtn->setScale(settingsBtn->m_baseScale);
 	settingsBtn->setID("settings-button");
-	m_buttonMenu->addChild(settingsBtn);
+	buttonMenu->addChild(settingsBtn);
 
 	//Scroll Layer Background
 	auto scrollBG = CCScale9Sprite::create("square02_001.png", {0.f,0.f,80.f,80.f});
-	scrollBG->setContentSize({320.f,230.f});
+	scrollBG->setContentSize(ccp(320.f, 230.f));
 	scrollBG->setPosition(ccp(280.f,125.f));
 	scrollBG->setOpacity(100.f);
 	scrollBG->setID("hacks-bg");
 	bg->addChild(scrollBG);
 
 	//Scroll Layer
-	m_scrollLayer = ScrollLayer::create({320.f,230.f});
-	m_content = CCMenu::create();
-	m_content->registerWithTouchDispatcher();
-	m_content->setPosition(m_scrollLayer->getPosition());
-	m_content->setContentSize(m_scrollLayer->getContentSize());
-	m_content->setID("hacks-menu");
-	m_scrollLayer->m_contentLayer->addChild(m_content);
-	m_scrollLayer->setTouchEnabled(true);
-	scrollBG->addChild(m_scrollLayer);
+	auto scrollLayer = ScrollLayer::create({320.f,230.f});
+	auto content = CCMenu::create();
+	content->registerWithTouchDispatcher();
+	content->setPosition(scrollLayer->getPosition());
+	content->setContentSize(scrollLayer->getContentSize());
+	content->setID("hacks-menu");
+	scrollLayer->m_contentLayer->addChild(content);
+	scrollLayer->setTouchEnabled(true);
+	scrollBG->addChild(scrollLayer);
 
 	//Ugh this code will be fixed later. It is super bad right now.
 	for (size_t i = 0; i < Client::instance->sections.size(); i++) {
@@ -78,30 +78,31 @@ bool AndesiteMenu::init(float mWidth, float mHeight) {
 		if (!section->id.compare("universal-section")) {
 			for (size_t h = 0; h < section->hacks.size(); h++) {
 				auto hack = section->hacks[h];
-				hack->addHackToMenu(hack, m_content, ccp(65.f+160*(h%2), m_content->getContentHeight() - 25 - (40 * floor(h / 2))));
+				hack->addHackToMenu(hack, content, ccp(65.f+160*(h%2), content->getContentHeight() - 25 - (40 * floor(h / 2))));
 			}
 		}
 	}
 
-	m_scrollLayer->moveToTop();
-	m_scrollLayer->enableScrollWheel();
+	scrollLayer->moveToTop();
+	scrollLayer->enableScrollWheel();
 
-	this->registerWithTouchDispatcher();
-	cocos::handleTouchPriority(this);
+	handleTouchPriority(this);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -500, true);
+
 	this->setID("andesite-menu");
 
 	return true;
 }
 
-void AndesiteMenu::onClose(CCObject* p0) {
+void HackMenu::onClose(CCObject* p0) {
 	this->removeFromParentAndCleanup(true);
 }
 
-AndesiteMenu* AndesiteMenu::create() {
-	auto ret = new AndesiteMenu();
+HackMenu* HackMenu::create() {
+	auto ret = new HackMenu();
 	if (ret && ret->init(450.f,300.f)) {
 		ret->autorelease();
 		return ret;

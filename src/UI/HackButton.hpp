@@ -1,8 +1,10 @@
 #pragma once
 
+#include "HackMenu.hpp"
+
 using namespace geode::prelude;
 
-class AndesiteButton : public CCMenu {
+class HackButton : public CCMenu {
 public:
 	void onButtonClicked(CCObject* p0);
 };
