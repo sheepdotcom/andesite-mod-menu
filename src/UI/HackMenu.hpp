@@ -10,5 +10,6 @@ public:
 	void onOptions(CCObject* p0);
 	bool init(float mWidth, float mHeight);
 	void onClose(CCObject* p0);
+	void keyBackClicked();
 	static HackMenu* create();
 };

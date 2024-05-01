@@ -1,3 +1,11 @@
+# v0.0.1-alpha.9
+
+- The text inside the options menu will no longer extend outside the popup.
+- The options button inside the hack menu now goes straight to the more options layer rather than the generic options layer.
+- Fixed the position of the close button in the hack options menu.
+- Having more than 2 options in the hack options menu will now scale the menu to fit the extra options.
+- The escape button now closes both the hack menu and the hack options menu.
+
 # v0.0.1-alpha.8
 
 - Added the ability for hacks to have options.

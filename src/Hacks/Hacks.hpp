@@ -11,6 +11,12 @@ public:
 	bool enabled = false;
 	std::vector<Hack*> options = {};
 
+	/**
+		Creates a new hack. Remember to not use color codes, especially since it doesn't work with any hack that has options.
+		@param hName Name of the hack
+		@param hId ID of the hack. The id is what is refered to by almost everything so don't change it.
+		@param hDesc Description of the hack. This is completely optional.
+	*/
 	Hack(std::string hName, std::string hId, std::string hDesc = "") {
 		name = hName;
 		id = hId;

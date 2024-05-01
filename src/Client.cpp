@@ -28,9 +28,14 @@ void Client::SetupUniversal() {
 	universal->hacks.push_back(new Hack("Hello", "hello", "This is a hello test."));
 	universal->hacks.push_back(new Hack("Long Word Test", "longwordtest", "This is a test for long phrases or sentences because I need to test if <cg>everything</c> works fine"));
 	universal->hacks.push_back(new Hack("Options Test", "optionstest", "Testing Custom Options!"));
+	universal->hacks.push_back(new Hack("Super Duper Long Options Hack Name And Description Test", "superduperlongoptionshacknameanddescriptiontest", "This is a test for ultra long options name and description testing."));
 
 	Client::instance->sections.push_back(universal);
 
 	Client::GetHack("optionstest")->options.push_back(new Hack("Hello", "optionstest-hello"));
 	Client::GetHack("optionstest")->options.push_back(new Hack("Hi", "optionstest-hi"));
+
+	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("You like these tests dont you?", "superduperlongoptionshacknameanddescriptiontest-youlikethesetestsdontyou"));
+	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Because I do.", "superduperlongoptionshacknameanddescriptiontest-becauseido"));
+	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Especially when you get to put funny names for your hacks.", "superduperlongoptionshacknameanddescriptiontest-especiallywhenyougettoputfunnynamesforyourhacks"));
 }

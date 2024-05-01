@@ -3,11 +3,7 @@
 using namespace geode::prelude;
 
 void HackMenu::onOptions(CCObject* p0) {
-	auto options = OptionsLayer::create();
-	auto scene = CCDirector::sharedDirector()->getRunningScene();
-	scene->addChild(options);
-	options->setZOrder(512);
-	options->showLayer(false);
+	MoreOptionsLayer::create()->show();
 }
 
 bool HackMenu::init(float mWidth, float mHeight) {
@@ -99,6 +95,10 @@ bool HackMenu::init(float mWidth, float mHeight) {
 
 void HackMenu::onClose(CCObject* p0) {
 	this->removeFromParentAndCleanup(true);
+}
+
+void HackMenu::keyBackClicked() {
+	HackMenu::onClose(nullptr);
 }
 
 HackMenu* HackMenu::create() {
