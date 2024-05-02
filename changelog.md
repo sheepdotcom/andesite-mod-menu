@@ -1,3 +1,7 @@
+# v0.0.1-alpha.10
+
+- Added a menu to swap between sections, though this is very unfinished.
+
 # v0.0.1-alpha.9
 
 - The text inside the options menu will no longer extend outside the popup.

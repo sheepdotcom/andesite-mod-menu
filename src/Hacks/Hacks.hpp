@@ -38,10 +38,11 @@ public:
 	std::string name;
 	std::string id;
 	std::vector<Hack*> hacks;
+
+	void addSectionToMenu(Hacks* section, CCMenu* menu, CCPoint pos);
+	void onSectionClicked(CCObject* p0);
 };
 
 //Here we go, time to use QOLMod's method of making multiple classes for each section, though its a pretty good idea.
-class Universal : public Hacks {
-public:
-
-};
+class Universal : public Hacks {};
+class Creator : public Hacks {};

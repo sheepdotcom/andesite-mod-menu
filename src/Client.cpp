@@ -15,14 +15,24 @@ Hack* Client::GetHack(std::string id) {
 	return nullptr;
 }
 
+Hacks* Client::GetSection(std::string id) {
+	if (!instance) return nullptr;
+	for (size_t s = 0; s < instance->sections.size(); s++) {
+		if (!instance->sections[s]->id.compare(id)) {
+			return instance->sections[s];
+		}
+	}
+}
+
 void Client::Setup() {
 	SetupUniversal();
+	SetupCreator();
 }
 
 void Client::SetupUniversal() {
 	Hacks* universal = new Universal();
 	universal->name = "Universal";
-	universal->id = "universal-section";
+	universal->id = "universal";
 
 	universal->hacks.push_back(new Hack("Testig", "testing", "I am testing the massive update!"));
 	universal->hacks.push_back(new Hack("Hello", "hello", "This is a hello test."));
@@ -38,4 +48,14 @@ void Client::SetupUniversal() {
 	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("You like these tests dont you?", "superduperlongoptionshacknameanddescriptiontest-youlikethesetestsdontyou"));
 	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Because I do.", "superduperlongoptionshacknameanddescriptiontest-becauseido"));
 	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Especially when you get to put funny names for your hacks.", "superduperlongoptionshacknameanddescriptiontest-especiallywhenyougettoputfunnynamesforyourhacks"));
+}
+
+void Client::SetupCreator() {
+	Hacks* creator = new Creator();
+	creator->name = "Creator";
+	creator->id = "creator";
+
+	creator->hacks.push_back(new Hack("New Section!", "newsection", "Welcome to the new section!"));
+
+	Client::instance->sections.push_back(creator);
 }

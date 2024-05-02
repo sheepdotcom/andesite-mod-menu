@@ -6,6 +6,14 @@ void HackMenu::onOptions(CCObject* p0) {
 	MoreOptionsLayer::create()->show();
 }
 
+void HackMenu::regenSection(Hacks* section) {
+	m_content->removeAllChildrenWithCleanup(true);
+	for (size_t i = 0; i < section->hacks.size(); i++) {
+		auto hack = section->hacks[i];
+		hack->addHackToMenu(hack, m_content, ccp(65.f + 160 * (i % 2), m_content->getContentHeight() - 25 - (40 * floor(i / 2))));
+	}
+}
+
 bool HackMenu::init(float mWidth, float mHeight) {
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
 	if (!this->initWithColor({0,0,0,105})) return false;
@@ -49,36 +57,62 @@ bool HackMenu::init(float mWidth, float mHeight) {
 	settingsBtn->setID("settings-button");
 	buttonMenu->addChild(settingsBtn);
 
+	//Sections Layer Background
+	auto sectionsBG = CCScale9Sprite::create("square02_001.png", {0.f,0.f,80.f,80.f});
+	sectionsBG->setContentSize(ccp(100.f, 230.f));
+	sectionsBG->setPosition(ccp(60.f, 125.f));
+	sectionsBG->setOpacity(100.f);
+	sectionsBG->setID("sections-bg");
+	bg->addChild(sectionsBG);
+
+	//Sections Layer
+	auto sectionsLayer = ScrollLayer::create({100.f, 230.f});
+	auto sectionsContent = CCMenu::create();
+	sectionsContent->registerWithTouchDispatcher();
+	sectionsContent->setPosition(sectionsLayer->getPosition());
+	sectionsContent->setContentSize(sectionsLayer->getContentSize());
+	sectionsContent->setID("sections-menu");
+	sectionsLayer->m_contentLayer->addChild(sectionsContent);
+	sectionsLayer->setTouchEnabled(true);
+	sectionsBG->addChild(sectionsLayer);
+
+	currentSection = Client::GetSection("universal");
+
+	//Add Sections To Sections Layer
+	for (size_t s = 0; s < Client::instance->sections.size(); s++) {
+		Client::instance->sections[s]->addSectionToMenu(
+			Client::instance->sections[s],
+			sectionsContent,
+			ccp(50.f, 210.f - (s * 35))
+		);
+	}
+
+	sectionsLayer->moveToTop();
+	sectionsLayer->enableScrollWheel();
+
 	//Scroll Layer Background
 	auto scrollBG = CCScale9Sprite::create("square02_001.png", {0.f,0.f,80.f,80.f});
 	scrollBG->setContentSize(ccp(320.f, 230.f));
-	scrollBG->setPosition(ccp(280.f,125.f));
+	scrollBG->setPosition(ccp(280.f, 125.f));
 	scrollBG->setOpacity(100.f);
 	scrollBG->setID("hacks-bg");
 	bg->addChild(scrollBG);
 
 	//Scroll Layer
-	auto scrollLayer = ScrollLayer::create({320.f,230.f});
-	auto content = CCMenu::create();
-	content->registerWithTouchDispatcher();
-	content->setPosition(scrollLayer->getPosition());
-	content->setContentSize(scrollLayer->getContentSize());
-	content->setID("hacks-menu");
-	scrollLayer->m_contentLayer->addChild(content);
+	auto scrollLayer = ScrollLayer::create({320.f, 230.f});
+	m_content = CCMenu::create();
+	m_content->registerWithTouchDispatcher();
+	m_content->setPosition(scrollLayer->getPosition());
+	m_content->setContentSize(scrollLayer->getContentSize());
+	m_content->setID("hacks-menu");
+	scrollLayer->m_contentLayer->addChild(m_content);
 	scrollLayer->setTouchEnabled(true);
 	scrollBG->addChild(scrollLayer);
 
-	//Ugh this code will be fixed later. It is super bad right now.
-	for (size_t i = 0; i < Client::instance->sections.size(); i++) {
-		auto section = Client::instance->sections[i];
-		if (!section->id.compare("universal-section")) {
-			for (size_t h = 0; h < section->hacks.size(); h++) {
-				auto hack = section->hacks[h];
-				hack->addHackToMenu(hack, content, ccp(65.f+160*(h%2), content->getContentHeight() - 25 - (40 * floor(h / 2))));
-			}
-		}
-	}
+	//Add Hack Buttons To The Menu
+	HackMenu::regenSection(currentSection);
 
+	//Stuff Below Here Does Things
 	scrollLayer->moveToTop();
 	scrollLayer->enableScrollWheel();
 

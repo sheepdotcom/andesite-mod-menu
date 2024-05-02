@@ -1,5 +1,6 @@
 #include "Hacks.hpp"
 #include "../UI/HackOptionsMenu.hpp"
+#include "../UI/HackMenu.hpp"
 
 using namespace geode::prelude;
 
@@ -74,4 +75,46 @@ void Hack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 	}
 
 	menu->addChild(toggle);
+}
+
+void Hacks::addSectionToMenu(Hacks* section, CCMenu* menu, CCPoint pos) {
+	auto name = section->name;
+	auto id = section->id;
+
+	//String streams are cool
+	std::stringstream buttonType;
+	buttonType << "GJ_button_0" << (HackMenu::currentSection->id == id ? 2 : 1) << ".png";
+
+	//Add menu selector
+	auto sectionBtn = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create(name.c_str(), 69.f, true, "bigFont.fnt", buttonType.str().c_str(), 30, 0.8f),
+		menu,
+		menu_selector(Hacks::onSectionClicked)
+	);
+	sectionBtn->setPosition(pos);
+	sectionBtn->setZOrder(3);
+	sectionBtn->setUserData(this);
+	sectionBtn->setID(id+"-section");
+
+	menu->addChild(sectionBtn);
+}
+
+void Hacks::onSectionClicked(CCObject* p0) {
+	auto section = static_cast<Hacks*>(static_cast<CCNode*>(p0)->getUserData());
+	auto sectionMenu = static_cast<CCMenu*>(static_cast<CCNode*>(p0)->getParent());
+
+	auto menu = static_cast<HackMenu*>(CCScene::get()->getChildByID("andesite-menu"));
+
+	HackMenu::currentSection = section;
+	sectionMenu->removeAllChildrenWithCleanup(true);
+
+	for (size_t s = 0; s < Client::instance->sections.size(); s++) {
+		Client::instance->sections[s]->addSectionToMenu(
+			Client::instance->sections[s],
+			sectionMenu,
+			ccp(50.f, 210.f - (35 * s))
+		);
+	}
+
+	menu->regenSection(section);
 }
