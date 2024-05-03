@@ -58,4 +58,6 @@ void Client::SetupCreator() {
 	creator->hacks.push_back(new Hack("New Section!", "newsection", "Welcome to the new section!"));
 
 	Client::instance->sections.push_back(creator);
+
+	Client::GetHack("newsection")->options.push_back(new InputHack("Input Test", "newsection-inputtest"));
 }

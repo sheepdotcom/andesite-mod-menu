@@ -77,24 +77,49 @@ void Hack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 	menu->addChild(toggle);
 }
 
+void InputHack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
+	InputHack* inputHack = static_cast<InputHack*>(hack);
+	auto input = TextInput::create(100.f, inputHack->name.c_str());
+	input->getInputNode()->setAllowedChars(inputHack->allowedCharacters);
+	input->setPosition(pos);
+	input->setDelegate(this);
+	input->setString(inputHack->text);
+
+	menu->addChild(input);
+
+	this->inputField = input;
+}
+
 void Hacks::addSectionToMenu(Hacks* section, CCMenu* menu, CCPoint pos) {
 	auto name = section->name;
 	auto id = section->id;
 
 	//String streams are cool
 	std::stringstream buttonType;
-	buttonType << "GJ_button_0" << (HackMenu::currentSection->id == id ? 2 : 1) << ".png";
+	//buttonType << "GJ_button_0" << (HackMenu::currentSection->id == id ? 2 : 1) << ".png";
+	buttonType << "GJ_longBtn0" << (HackMenu::currentSection->id == id ? 2 : 1) << "_001.png";
 
 	//Add menu selector
 	auto sectionBtn = CCMenuItemSpriteExtra::create(
-		ButtonSprite::create(name.c_str(), 69.f, true, "bigFont.fnt", buttonType.str().c_str(), 30, 0.8f),
+		//ButtonSprite::create(name.c_str(), 69.f, true, "bigFont.fnt", buttonType.str().c_str(), 30, 0.8f),
+		CCSprite::createWithSpriteFrameName(buttonType.str().c_str()),
 		menu,
 		menu_selector(Hacks::onSectionClicked)
 	);
 	sectionBtn->setPosition(pos);
+	sectionBtn->m_baseScale = 90.f / sectionBtn->getContentWidth(); //Math to get the width to be 90 instead of 91.75
+	sectionBtn->setScale(sectionBtn->m_baseScale);
 	sectionBtn->setZOrder(3);
 	sectionBtn->setUserData(this);
 	sectionBtn->setID(id+"-section");
+
+	//Manually add CCLabelBMFont
+	auto sectionLabel = CCLabelBMFont::create(name.c_str(), "bigFont.fnt");
+	sectionLabel->setPosition((sectionBtn->getContentSize() / 2) + ccp(0.f, 1.5f));
+	auto labelLimiter = (90.f - 10.f) / std::max(sectionLabel->getContentWidth(), (90.f - 10.f));
+	sectionLabel->setScale(labelLimiter);
+	sectionLabel->setZOrder(4);
+	sectionBtn->addChild(sectionLabel);
 
 	menu->addChild(sectionBtn);
 }

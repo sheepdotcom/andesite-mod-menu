@@ -1,3 +1,11 @@
+# v0.0.1-alpha.11
+
+- Fixed an issue where the Hack Options Menu would extend more than it should when it had an even number of options.
+- Made some changes to `changelog.md` including making some changes more understandable.
+- Changed the texture of the section buttons to not look the same as the hack buttons.
+- Added a poorly coded number input hack that will be fixed in the next update.
+- Updated `about.md` and `README.md`.
+
 # v0.0.1-alpha.10
 
 - Added a menu to swap between sections, though this is very unfinished.
@@ -12,7 +20,7 @@
 
 # v0.0.1-alpha.8
 
-- Added the ability for hacks to have options.
+- Hacks can now have options with in them for more customizablility.
 - The hack options menu is very similar to MegaHack Mobile but still needs a lot of fixes and some missing features to be added.
 - Changed the hacks menu from `FLAlertLayer` to `CCLayerColor`, changed multiple variable names, and renamed many files.
 
@@ -24,7 +32,7 @@
 # v0.0.1-alpha.6
 
 - Added an entire system for storing and creating hacks (This took a lot of effort).
-- Made the labels on the buttons smaller.
+- Made the hack name labels on the buttons smaller.
 - Having multiple hacks now works properly.
 - Added info buttons that display details on what each hack does.
 - Hacks will now save what state they are in.
@@ -32,24 +40,23 @@
 # v0.0.1-alpha.5
 
 - Changed the mod ID from `andesite` to `andesite-hacks`.
-- Added repository link.
+- Added the mod's repository link to `mod.json`.
 - Updated `changelog.md` to look better and updated `about.md`.
 
 # v0.0.1-alpha.4
 
-- Actually made the hack menu slightly wider.
+- Made the hack menu slightly wider.
 - Added a settings button to the hack menu.
 - Internal code changes allowing for custom width and height of the hacks menu if needed.
 
 # v0.0.1-alpha.3
 
 - Made the toggle buttons look more like MegaHack Mobile rather than being default, but still needs scaling and positioning adjustments.
-- Added more IDs to menu layers.
-- Made the hack menu slightly wider.
+- Added more IDs to objects in the menu layer.
 
 # v0.0.1-alpha.2
 
-- Fixed buttons in menu not working.
+- Fixed Hack Buttons not working.
 - Disabled the broken copy hack.
 - Added title text to the menu.
 

@@ -1,8 +1,8 @@
 # Andesite Hacks
 
-This is the mod name now.
+Mod name may potentially change in the future. Please suggest ideas to me through github.
 
-Currently in alpha, meaning this is unfinished.
+This mod is in alpha, meaning some things may not be finished or work as they should.
 
 # Credits
 

@@ -9,8 +9,7 @@ void HackMenu::onOptions(CCObject* p0) {
 void HackMenu::regenSection(Hacks* section) {
 	m_content->removeAllChildrenWithCleanup(true);
 	for (size_t i = 0; i < section->hacks.size(); i++) {
-		auto hack = section->hacks[i];
-		hack->addHackToMenu(hack, m_content, ccp(65.f + 160 * (i % 2), m_content->getContentHeight() - 25 - (40 * floor(i / 2))));
+		section->hacks[i]->addHackToMenu(section->hacks[i], m_content, ccp(65.f + 160 * (i % 2), m_content->getContentHeight() - 25 - (40 * floor(i / 2))));
 	}
 }
 
@@ -116,11 +115,11 @@ bool HackMenu::init(float mWidth, float mHeight) {
 	scrollLayer->moveToTop();
 	scrollLayer->enableScrollWheel();
 
-	handleTouchPriority(this);
+	handleTouchPriority(this, true);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -500, true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -501, true);
 
 	this->setID("andesite-menu");
 

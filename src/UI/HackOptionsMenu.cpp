@@ -13,7 +13,7 @@ void HackOptionsMenu::keyBackClicked() {
 bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
 	if (!CCLayerColor::init()) return false;
 
-	mHeight = mHeight + (40 * floor(hack->options.size() / 2));
+	mHeight = mHeight + (40 * floor((hack->options.size() - 1) / 2));
 
 	auto menu = CCMenu::create();
 	menu->setContentSize(ccp(mWidth,mHeight));
@@ -51,7 +51,7 @@ bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
 	for (size_t i = 0; i < hack->options.size(); i++) {
 		auto option = hack->options[i];
 		
-		option->addHackToMenu(option, menu, ccp(80 + (140 * (i % 2)), 35 + (40 * floor(hack->options.size() / 2)) - (40 * floor(i / 2))));
+		option->addHackToMenu(option, menu, ccp(80 + (140 * (i % 2)), 35 + (40 * floor((hack->options.size() - 1) / 2)) - (40 * floor(i / 2))));
 	}
 	
 	handleTouchPriority(this);

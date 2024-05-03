@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Geode/ui/TextInput.hpp>
+
 using namespace geode::prelude;
 
 //Were taking the QOLMod approach with this one (I never copy+paste code, I always write it myself, but that doesn't mean I won't use it as a guide).
@@ -9,25 +11,51 @@ public:
 	std::string id;
 	std::string desc;
 	bool enabled = false;
+	bool def = false;
 	std::vector<Hack*> options = {};
 
+	Hack() {}
 	/**
 		Creates a new hack. Remember to not use color codes, especially since it doesn't work with any hack that has options.
 		@param hName Name of the hack
 		@param hId ID of the hack. The id is what is refered to by almost everything so don't change it.
 		@param hDesc Description of the hack. This is completely optional.
 	*/
-	Hack(std::string hName, std::string hId, std::string hDesc = "") {
+	Hack(std::string hName, std::string hId, std::string hDesc = "", bool hDefault = false) {
 		name = hName;
 		id = hId;
 		desc = hDesc;
-		enabled = Mod::get()->getSavedValue<bool>(id+"_enabled", enabled);
+		def = hDefault;
+		enabled = Mod::get()->getSavedValue<bool>(id + "_enabled", def);
 		Mod::get()->setSavedValue<bool>(id + "_enabled", enabled);
 	}
 
 	void onToggle(CCObject* p0);
 	void onInfo(CCObject* p0);
 	void onOptions(CCObject* p0);
+	virtual void addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos);
+};
+
+class InputHack : public Hack, public TextInputDelegate {
+public:
+	std::string text = "";
+	std::string allowedCharacters = "1234567890.";
+
+	TextInput* inputField = nullptr;
+
+	/**
+		Creates a new number input hack. Remember to not use color codes, especially since it doesn't work with any hack that has options.
+		@param hName Name of the hack
+		@param hId ID of the hack. The id is what is refered to by almost everything so don't change it.
+		@param hDefault Default value of the number input hack. This is completely optional.
+	*/
+	InputHack(std::string hName, std::string hId, std::string hDefault = "") {
+		this->name = hName;
+		this->id = hId;
+		this->text = Mod::get()->getSavedValue<std::string>(id + "_value", hDefault);
+		Mod::get()->setSavedValue<std::string>(id + "_value", text);
+	}
+
 	void addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos);
 };
 
