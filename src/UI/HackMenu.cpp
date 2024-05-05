@@ -4,6 +4,7 @@ using namespace geode::prelude;
 
 void HackMenu::onOptions(CCObject* p0) {
 	MoreOptionsLayer::create()->show();
+	static_cast<CCLayer*>(CCScene::get()->getChildByID("MoreOptionsLayer"))->setTouchPriority(-513);
 }
 
 void HackMenu::regenSection(Hacks* section) {
@@ -15,7 +16,7 @@ void HackMenu::regenSection(Hacks* section) {
 
 bool HackMenu::init(float mWidth, float mHeight) {
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
-	if (!this->initWithColor({0,0,0,105})) return false;
+	if (!CCLayerColor::initWithColor({0,0,0,105})) return false;
 
 	//Background
 	auto mainLayer = CCLayer::create();
@@ -114,12 +115,13 @@ bool HackMenu::init(float mWidth, float mHeight) {
 	//Stuff Below Here Does Things
 	scrollLayer->moveToTop();
 	scrollLayer->enableScrollWheel();
+	this->setZOrder(257); //Make sure it goes above things like the prism menu button
 
 	handleTouchPriority(this, true);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -501, true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -508, true);
 
 	this->setID("andesite-menu");
 

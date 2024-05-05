@@ -11,7 +11,7 @@ void HackOptionsMenu::keyBackClicked() {
 }
 
 bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
-	if (!CCLayerColor::init()) return false;
+	if (!CCLayerColor::initWithColor({0,0,0,105})) return false;
 
 	mHeight = mHeight + (40 * floor((hack->options.size() - 1) / 2));
 
@@ -31,14 +31,14 @@ bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
 
 	auto title = CCLabelBMFont::create(hack->name.c_str(), "bigFont.fnt");
 	title->setPosition(ccp(menu->getContentWidth() / 2,menu->getContentHeight() - 20));
-	float titleLimiter = (mWidth - 75) / (std::max(title->getContentWidth(), (mWidth - 75)));
+	float titleLimiter = (mWidth - 75) / std::max(title->getContentWidth(), (mWidth - 75));
 	title->setScale(std::min(1.f, titleLimiter));
 	title->setID("menu-title");
 	menu->addChild(title);
 
 	auto desc = CCLabelBMFont::create(hack->desc.c_str(), "goldFont.fnt");
 	desc->setPosition(ccp(menu->getContentWidth() / 2,menu->getContentHeight() - 50));
-	float descLimiter = (mWidth - 50) / (std::max(desc->getContentWidth(), (mWidth - 50)));
+	float descLimiter = (mWidth - 50) / std::max(desc->getContentWidth(), (mWidth - 50));
 	desc->setScale(std::min(0.75f, descLimiter));
 	desc->setID("menu-description");
 	menu->addChild(desc);
@@ -54,11 +54,18 @@ bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
 		option->addHackToMenu(option, menu, ccp(80 + (140 * (i % 2)), 35 + (40 * floor((hack->options.size() - 1) / 2)) - (40 * floor(i / 2))));
 	}
 	
-	handleTouchPriority(this);
+	handleTouchPriority(this, true);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -502, true);
+	auto priority = -512;
+	//Attempt at forcing the options menu to have top priority over the hack menu because sometimes they have the same priority for some reason.
+	if (auto delegate = typeinfo_cast<CCTouchDelegate*>(CCScene::get()->getChildByID("andesite-menu"))) {
+		if (auto handler = CCTouchDispatcher::get()->findHandler(delegate)) {
+			priority = handler->getPriority() - 10.f;
+		}
+	}
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, priority, true);
 
 	this->setID("hack-options-menu");
 

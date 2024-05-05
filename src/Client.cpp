@@ -59,5 +59,6 @@ void Client::SetupCreator() {
 
 	Client::instance->sections.push_back(creator);
 
-	Client::GetHack("newsection")->options.push_back(new InputHack("Input Test", "newsection-inputtest"));
+	Client::GetHack("newsection")->options.push_back(new InputHack("Input Test", "newsection-inputtest", "", "x"));
+	Client::GetHack("newsection")->options.push_back(new DropdownHack("Dropdown Test", "newsection-dropdowntest", {"one test", "two test", "red test", "blue test"}));
 }

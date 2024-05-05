@@ -1,9 +1,21 @@
+# v0.0.1-alpha.12
+
+- Made the placeholder text for input hacks no longer extend outside the input zone.
+- Text Character Bypass hacks should no longer work inside of input hacks.
+- Added a small label and a suffix label to input hacks, just like MegaHack Mobile has.
+- More customizability for creating input hacks.
+- Most likely fixed an issue where the hack menu would sometimes take priority over the hack options menu.
+- Added a dropdown hack that lets you select from any preset values.
+- The hack options menu will now darken the background a little bit just like the hacks menu.
+- The hack menu has a much higher z order so now it should go on top of other buttons.
+- The options menu (not the hack options menu) has a lower priority than the hack menu, meaning it is currently unusable and will be fixed in this next update.
+
 # v0.0.1-alpha.11
 
 - Fixed an issue where the Hack Options Menu would extend more than it should when it had an even number of options.
 - Made some changes to `changelog.md` including making some changes more understandable.
 - Changed the texture of the section buttons to not look the same as the hack buttons.
-- Added a poorly coded number input hack that will be fixed in the next update.
+- Added a custom input hack that is currently unfinished.
 - Updated `about.md` and `README.md`.
 
 # v0.0.1-alpha.10

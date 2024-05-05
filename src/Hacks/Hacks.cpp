@@ -1,6 +1,7 @@
 #include "Hacks.hpp"
 #include "../UI/HackOptionsMenu.hpp"
 #include "../UI/HackMenu.hpp"
+#include "../UI/Dropdown.hpp"
 
 using namespace geode::prelude;
 
@@ -79,15 +80,69 @@ void Hack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 
 void InputHack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
 	InputHack* inputHack = static_cast<InputHack*>(hack);
-	auto input = TextInput::create(100.f, inputHack->name.c_str());
+
+	auto input = TextInput::create(100.f, inputHack->placeholder.c_str());
 	input->getInputNode()->setAllowedChars(inputHack->allowedCharacters);
 	input->setPosition(pos);
 	input->setDelegate(this);
+	auto inputLimiter = (input->getContentWidth() - 10.f) / std::max(input->getInputNode()->m_placeholderLabel->getContentWidth(), (input->getContentWidth() - 10.f));
+	input->getInputNode()->setLabelPlaceholderScale(inputLimiter);
 	input->setString(inputHack->text);
+	input->setID(inputHack->id);
+
+	auto label = CCLabelBMFont::create(inputHack->name.c_str(), "bigFont.fnt");
+	label->setScale(0.3f);
+	label->setOpacity(125);
+	label->setPosition(ccp(0.f, input->getContentHeight() + 0.f));
+	label->setAnchorPoint(ccp(0.f, 0.5f));
+	label->setID("input-label");
+	input->addChild(label);
+
+	if (inputHack->suffix.size() != 0) {
+		auto suffix = CCLabelBMFont::create(inputHack->suffix.c_str(), "bigFont.fnt");
+		suffix->setScale(0.3f);
+		suffix->setOpacity(125);
+		suffix->setPosition(ccp(input->getContentWidth(), input->getContentHeight() / 2));
+		suffix->setID("input-suffix");
+		input->addChild(suffix);
+	}
 
 	menu->addChild(input);
 
 	this->inputField = input;
+}
+
+void InputHack::textChanged(CCTextInputNode* p0) {
+	//Custom character filter so people with other hacks cant text bypass hopefully.
+	std::string tempText = p0->getString();
+	text = "";
+	for (int i = 0; i < tempText.size(); i++) {
+		char l = tempText[i];
+		if (allowedCharacters.find(l) != std::string::npos) {
+			text.push_back(l);
+		}
+	}
+	static_cast<TextInput*>(p0->getParent())->setString(text); //Me when static_cast
+	Mod::get()->setSavedValue<std::string>(id + "_value", text);
+}
+
+void DropdownHack::addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos) {
+	auto dropHack = static_cast<DropdownHack*>(hack);
+
+	auto dropdown = Dropdown::create(ccp(100, 30), dropHack->content, menu_selector(DropdownHack::onDropdownSelectionChanged), dropHack->index);
+	dropdown->setUserData(this);
+	dropdown->setPosition(pos - (dropdown->getContentSize() / 2));
+	dropdown->setID(dropHack->id);
+
+	menu->addChild(dropdown);
+}
+
+void DropdownHack::onDropdownSelectionChanged(CCObject* p0) {
+	auto hack = static_cast<DropdownHack*>(static_cast<CCNode*>(p0)->getParent()->getUserData());
+	auto drop = static_cast<Dropdown*>(static_cast<CCNode*>(p0)->getParent());
+
+	hack->index = drop->selected;
+	Mod::get()->setSavedValue<int>(hack->id + "_index", hack->index);
 }
 
 void Hacks::addSectionToMenu(Hacks* section, CCMenu* menu, CCPoint pos) {

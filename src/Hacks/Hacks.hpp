@@ -39,24 +39,50 @@ public:
 class InputHack : public Hack, public TextInputDelegate {
 public:
 	std::string text = "";
-	std::string allowedCharacters = "1234567890.";
+	std::string placeholder = "";
+	std::string suffix = "";
+	std::string allowedCharacters = "0123456789.";
 
 	TextInput* inputField = nullptr;
 
 	/**
-		Creates a new number input hack. Remember to not use color codes, especially since it doesn't work with any hack that has options.
-		@param hName Name of the hack
-		@param hId ID of the hack. The id is what is refered to by almost everything so don't change it.
-		@param hDefault Default value of the number input hack. This is completely optional.
+		Creates a new input hack. Remember to not use color codes, especially since it doesn't work with any hack that has options.
+		@param hName - Name of the hack
+		@param hId - ID of the hack. The id is what is refered to by almost everything so don't change it.
+		@param hDefault - Default value of the input hack. This is completely optional.
+		@param hSuffix - Suffix text to display to the right of the input hack. This is completely optional.
+		@param hPlaceholder - Placeholder text for when there is no text currently inputted. If left empty, then it will use the hack's name instead. This is completely optional.
+		@param hCharacterFilter - A string containing only the allowed characters for the text field. This is completely optional.
 	*/
-	InputHack(std::string hName, std::string hId, std::string hDefault = "") {
-		this->name = hName;
-		this->id = hId;
-		this->text = Mod::get()->getSavedValue<std::string>(id + "_value", hDefault);
+	InputHack(std::string hName, std::string hId, std::string hDefault = "", std::string hSuffix = "", std::string hPlaceholder = "", std::string hCharacterFilter = "0123456789.") {
+		name = hName;
+		id = hId;
+		suffix = hSuffix;
+		placeholder = (hPlaceholder.size() != 0 ? hPlaceholder : hName);
+		allowedCharacters = hCharacterFilter;
+		text = Mod::get()->getSavedValue<std::string>(id + "_value", hDefault);
 		Mod::get()->setSavedValue<std::string>(id + "_value", text);
 	}
 
 	void addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos);
+	virtual void textChanged(CCTextInputNode* p0);
+};
+
+class DropdownHack : public Hack {
+public:
+	std::vector<std::string> content = {};
+	int index = 0;
+
+	DropdownHack(std::string hName, std::string hId, std::vector<std::string> hContent, int hDefault = 0) {
+		name = hName;
+		id = hId;
+		content = hContent;
+		index = Mod::get()->getSavedValue<int>(id + "_index", hDefault);
+		Mod::get()->setSavedValue<int>(id + "_index", index);
+	}
+
+	void addHackToMenu(Hack* hack, CCMenu* menu, CCPoint pos);
+	void onDropdownSelectionChanged(CCObject* p0);
 };
 
 //Yes, Hacks and Hack, I know but Hacks sounds better for some scenarios, even though I probably shouldn't worry about how they sound to a user.
