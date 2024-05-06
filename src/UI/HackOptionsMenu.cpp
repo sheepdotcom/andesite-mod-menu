@@ -58,7 +58,7 @@ bool HackOptionsMenu::init(Hack* hack, float mWidth, float mHeight) {
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	auto priority = -512;
+	auto priority = -492;
 	//Attempt at forcing the options menu to have top priority over the hack menu because sometimes they have the same priority for some reason.
 	if (auto delegate = typeinfo_cast<CCTouchDelegate*>(CCScene::get()->getChildByID("andesite-menu"))) {
 		if (auto handler = CCTouchDispatcher::get()->findHandler(delegate)) {

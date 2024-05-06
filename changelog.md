@@ -1,3 +1,8 @@
+# v0.0.1-alpha.13
+
+- Fixed the touch priority on the vanilla options menu and the hack info menu.
+- Updated `about.md`.
+
 # v0.0.1-alpha.12
 
 - Made the placeholder text for input hacks no longer extend outside the input zone.
@@ -8,7 +13,7 @@
 - Added a dropdown hack that lets you select from any preset values.
 - The hack options menu will now darken the background a little bit just like the hacks menu.
 - The hack menu has a much higher z order so now it should go on top of other buttons.
-- The options menu (not the hack options menu) has a lower priority than the hack menu, meaning it is currently unusable and will be fixed in this next update.
+- There are currently touch priority issues causing the vanilla options menu and the hack info menu to be unusable while the main hack menu was open.
 
 # v0.0.1-alpha.11
 

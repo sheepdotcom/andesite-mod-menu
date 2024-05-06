@@ -4,7 +4,6 @@ using namespace geode::prelude;
 
 void HackMenu::onOptions(CCObject* p0) {
 	MoreOptionsLayer::create()->show();
-	static_cast<CCLayer*>(CCScene::get()->getChildByID("MoreOptionsLayer"))->setTouchPriority(-513);
 }
 
 void HackMenu::regenSection(Hacks* section) {
@@ -121,7 +120,7 @@ bool HackMenu::init(float mWidth, float mHeight) {
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);
 	this->setMouseEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -508, true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -482, true);
 
 	this->setID("andesite-menu");
 
