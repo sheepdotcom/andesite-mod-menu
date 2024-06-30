@@ -22,6 +22,27 @@ Hacks* Client::GetSection(std::string id) {
 			return instance->sections[s];
 		}
 	}
+	return nullptr;
+}
+
+//Useless for now
+Hacks* Client::GetSectionOfHack(std::string id) {
+	if (!instance) return nullptr;
+	for (size_t s = 0; s < instance->sections.size(); s++) {
+		for (size_t h = 0; h < instance->sections[s]->hacks.size(); h++) {
+			if (!instance->sections[s]->id.compare(id)) {
+				return instance->sections[s];
+			}
+		}
+	}
+	return nullptr;
+}
+
+bool Client::HackEnabled(std::string id) {
+	if (auto hack = Client::GetHack(id)) {
+		return hack->enabled;
+	}
+	return false;
 }
 
 void Client::Setup() {
@@ -34,20 +55,7 @@ void Client::SetupUniversal() {
 	universal->name = "Universal";
 	universal->id = "universal";
 
-	universal->hacks.push_back(new Hack("Testig", "testing", "I am testing the massive update!"));
-	universal->hacks.push_back(new Hack("Hello", "hello", "This is a hello test."));
-	universal->hacks.push_back(new Hack("Long Word Test", "longwordtest", "This is a test for long phrases or sentences because I need to test if <cg>everything</c> works fine"));
-	universal->hacks.push_back(new Hack("Options Test", "optionstest", "Testing Custom Options!"));
-	universal->hacks.push_back(new Hack("Super Duper Long Options Hack Name And Description Test", "superduperlongoptionshacknameanddescriptiontest", "This is a test for ultra long options name and description testing."));
-
 	Client::instance->sections.push_back(universal);
-
-	Client::GetHack("optionstest")->options.push_back(new Hack("Hello", "optionstest-hello"));
-	Client::GetHack("optionstest")->options.push_back(new Hack("Hi", "optionstest-hi"));
-
-	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("You like these tests dont you?", "superduperlongoptionshacknameanddescriptiontest-youlikethesetestsdontyou"));
-	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Because I do.", "superduperlongoptionshacknameanddescriptiontest-becauseido"));
-	Client::GetHack("superduperlongoptionshacknameanddescriptiontest")->options.push_back(new Hack("Especially when you get to put funny names for your hacks.", "superduperlongoptionshacknameanddescriptiontest-especiallywhenyougettoputfunnynamesforyourhacks"));
 }
 
 void Client::SetupCreator() {
@@ -55,10 +63,15 @@ void Client::SetupCreator() {
 	creator->name = "Creator";
 	creator->id = "creator";
 
-	creator->hacks.push_back(new Hack("New Section!", "newsection", "Welcome to the new section!"));
+	creator->hacks.push_back(new Hack("Copy Hack", "copy-hack", "Copy any online level."));
 
 	Client::instance->sections.push_back(creator);
+}
 
-	Client::GetHack("newsection")->options.push_back(new InputHack("Input Test", "newsection-inputtest", "", "x"));
-	Client::GetHack("newsection")->options.push_back(new DropdownHack("Dropdown Test", "newsection-dropdowntest", {"one test", "two test", "red test", "blue test"}));
+void Client::SetupCosmetic() {
+	Hacks* cosmetic = new Cosmetic();
+	cosmetic->name = "Cosmetic";
+	cosmetic->id = "cosmetic";
+
+	Client::instance->sections.push_back(cosmetic);
 }

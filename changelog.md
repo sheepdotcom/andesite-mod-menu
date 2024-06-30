@@ -1,3 +1,9 @@
+# v0.0.1-alpha.14
+
+- Update to Geode v3.1.1 for 2.206
+- Copy Hack has been added (currently broken)
+- New section
+
 # v0.0.1-alpha.13
 
 - Fixed the touch priority on the vanilla options menu and the hack info menu.

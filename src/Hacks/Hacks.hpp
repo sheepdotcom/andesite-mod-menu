@@ -100,3 +100,4 @@ public:
 //Here we go, time to use QOLMod's method of making multiple classes for each section, though its a pretty good idea.
 class Universal : public Hacks {};
 class Creator : public Hacks {};
+class Cosmetic : public Hacks {};
